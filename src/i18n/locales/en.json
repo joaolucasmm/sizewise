@@ -1,0 +1,80 @@
+{
+  "app": {
+    "tagline": "See what is using your disk space"
+  },
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "pt-BR": "Português (Brasil)"
+  },
+  "start": {
+    "title": "What do you want to scan?",
+    "drives": "Drives",
+    "noDrives": "No drives found.",
+    "loadingDrives": "Loading drives…",
+    "folder": "A specific folder",
+    "folderHint": "Faster than a whole drive when you already know where to look.",
+    "chooseFolder": "Choose folder…",
+    "localDisk": "Local Disk",
+    "free": "{free} free of {total}",
+    "readOnly": "Sizewise only reads your files. Nothing is changed or deleted."
+  },
+  "errors": {
+    "notFound": "The Target no longer exists: {target}",
+    "notAFolder": "The Target is not a folder: {target}",
+    "unreadable": "The Target can't be read (access denied or unavailable): {target}",
+    "internal": "The Scan could not start: {message}",
+    "generic": "Something went wrong: {message}",
+    "dismiss": "Dismiss"
+  },
+  "scan": {
+    "title": "Scanning",
+    "currentFolder": "Current folder",
+    "files": "Files read",
+    "size": "Size so far",
+    "elapsed": "Elapsed time",
+    "starting": "Starting…",
+    "cancel": "Cancel",
+    "cancelling": "Cancelling…"
+  },
+  "results": {
+    "newScan": "New scan",
+    "total": "Total size",
+    "files": "Files",
+    "folders": "Folders",
+    "duration": "Scan duration",
+    "cancelled": "This Scan was cancelled, so the result is incomplete. Sizes only cover what was read before cancelling.",
+    "unreadable": "{count} folder couldn't be read, so totals may be incomplete. | {count} folders couldn't be read, so totals may be incomplete.",
+    "showUnreadable": "Show folders",
+    "hideUnreadable": "Hide folders",
+    "tree": "Tree",
+    "top": "Top 100 Large files"
+  },
+  "tree": {
+    "name": "Name",
+    "size": "Size",
+    "percent": "% of parent",
+    "contents": "Contents",
+    "files": "{n} file | {n} files",
+    "folders": "{n} folder | {n} folders",
+    "empty": "This folder is empty.",
+    "loading": "Loading…",
+    "showMore": "Show {count} more"
+  },
+  "top": {
+    "rank": "#",
+    "name": "Name",
+    "path": "Folder",
+    "size": "Size",
+    "modified": "Modified",
+    "empty": "No files found."
+  },
+  "actions": {
+    "menu": "Actions for {name}",
+    "reveal": "Open in Explorer",
+    "copyPath": "Copy path",
+    "copied": "Path copied",
+    "revealFailed": "Couldn't open Explorer: {message}",
+    "copyFailed": "Couldn't copy the path: {message}"
+  }
+}

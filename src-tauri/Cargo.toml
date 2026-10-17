@@ -1,0 +1,23 @@
+[package]
+name = "sizewise"
+version = "0.1.0"
+description = "Find what is using your disk space"
+authors = ["joaolucasmm"]
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lib]
+name = "sizewise_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+scanner = { path = "../crates/scanner" }
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+tauri-plugin-opener = "2"
+serde = { version = "1", features = ["derive"] }
+sys-locale = "0.3"

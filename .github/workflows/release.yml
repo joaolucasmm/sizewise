@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Install UI dependencies
+        run: npm ci
+
+      - name: Test
+        run: cargo test --workspace
+
+      # Builds the NSIS installer (unsigned) and attaches it to a GitHub Release.
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: Sizewise ${{ github.ref_name }}
+          releaseBody: |
+            See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md) for what's new.
+
+            Download `Sizewise_*_x64-setup.exe` below. The installer is not code-signed, so Windows SmartScreen will warn you: click **More info → Run anyway**.
+          releaseDraft: false
+          prerelease: false

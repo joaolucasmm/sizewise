@@ -1,0 +1,80 @@
+{
+  "app": {
+    "tagline": "Veja o que está ocupando o seu disco"
+  },
+  "language": {
+    "label": "Idioma",
+    "en": "English",
+    "pt-BR": "Português (Brasil)"
+  },
+  "start": {
+    "title": "O que você quer escanear?",
+    "drives": "Unidades",
+    "noDrives": "Nenhuma unidade encontrada.",
+    "loadingDrives": "Carregando unidades…",
+    "folder": "Uma pasta específica",
+    "folderHint": "Mais rápido que uma unidade inteira quando você já sabe onde procurar.",
+    "chooseFolder": "Escolher pasta…",
+    "localDisk": "Disco Local",
+    "free": "{free} livres de {total}",
+    "readOnly": "O Sizewise só lê os seus arquivos. Nada é alterado ou excluído."
+  },
+  "errors": {
+    "notFound": "O alvo não existe mais: {target}",
+    "notAFolder": "O alvo não é uma pasta: {target}",
+    "unreadable": "Não foi possível ler o alvo (acesso negado ou indisponível): {target}",
+    "internal": "Não foi possível iniciar o escaneamento: {message}",
+    "generic": "Algo deu errado: {message}",
+    "dismiss": "Fechar"
+  },
+  "scan": {
+    "title": "Escaneando",
+    "currentFolder": "Pasta atual",
+    "files": "Arquivos lidos",
+    "size": "Tamanho até agora",
+    "elapsed": "Tempo decorrido",
+    "starting": "Iniciando…",
+    "cancel": "Cancelar",
+    "cancelling": "Cancelando…"
+  },
+  "results": {
+    "newScan": "Novo escaneamento",
+    "total": "Tamanho total",
+    "files": "Arquivos",
+    "folders": "Pastas",
+    "duration": "Duração do escaneamento",
+    "cancelled": "Este escaneamento foi cancelado, então o resultado está incompleto. Os tamanhos cobrem só o que foi lido antes do cancelamento.",
+    "unreadable": "{count} pasta não pôde ser lida, então os totais podem estar incompletos. | {count} pastas não puderam ser lidas, então os totais podem estar incompletos.",
+    "showUnreadable": "Mostrar pastas",
+    "hideUnreadable": "Ocultar pastas",
+    "tree": "Árvore",
+    "top": "100 maiores arquivos"
+  },
+  "tree": {
+    "name": "Nome",
+    "size": "Tamanho",
+    "percent": "% da pasta",
+    "contents": "Conteúdo",
+    "files": "{n} arquivo | {n} arquivos",
+    "folders": "{n} pasta | {n} pastas",
+    "empty": "Esta pasta está vazia.",
+    "loading": "Carregando…",
+    "showMore": "Mostrar mais {count}"
+  },
+  "top": {
+    "rank": "#",
+    "name": "Nome",
+    "path": "Pasta",
+    "size": "Tamanho",
+    "modified": "Modificado em",
+    "empty": "Nenhum arquivo encontrado."
+  },
+  "actions": {
+    "menu": "Ações para {name}",
+    "reveal": "Abrir no Explorer",
+    "copyPath": "Copiar caminho",
+    "copied": "Caminho copiado",
+    "revealFailed": "Não foi possível abrir o Explorer: {message}",
+    "copyFailed": "Não foi possível copiar o caminho: {message}"
+  }
+}
