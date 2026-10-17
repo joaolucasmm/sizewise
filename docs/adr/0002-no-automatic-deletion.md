@@ -1,0 +1,3 @@
+# Deletion is manual-only, Recycle-Bin-only, and always reversible
+
+Unlike other optimizers, the app never suggests, pre-selects or automatically deletes files, and never deletes permanently. Every Deletion is chosen by the user, goes through a Preview, lands in the Recycle Bin and is recorded in the History so it can be Undone. Protected folders accept no Deletion. We give up the convenience of a "clean everything" button in exchange for a guarantee that the app never destroys data by mistake. Features like "free up RAM" and "registry cleaning" are excluded from the product: they bring no real gain and carry risk.

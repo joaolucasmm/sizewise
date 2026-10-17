@@ -1,55 +1,56 @@
 # Sizewise
 
-App para Windows que organiza pastas e mostra onde está o espaço ocupado em disco, sempre com o usuário no controle de cada alteração.
+A Windows app that organizes folders and shows where disk space is being used, always keeping the user in control of every change.
 
-## Organização
+## Organization
 
-**Organização**:
-Mover os arquivos soltos na raiz de uma pasta escolhida para subpastas, segundo um critério. Nunca apaga arquivos nem mexe em subpastas existentes.
-_Avoid_: Limpeza, arrumação
+**Organization**:
+Moving the loose files at the root of a chosen folder into subfolders according to a criterion. Never deletes files and never touches existing subfolders.
+_Avoid_: Cleanup, tidying
 
-**Categoria**:
-Grupo de tipos de arquivo (Imagens, Documentos, Vídeos, Músicas, Compactados, Instaladores, Código, Outros) que vira uma subpasta na Organização por tipo.
-_Avoid_: Tipo, grupo
+**Category**:
+A group of file types (Images, Documents, Videos, Music, Archives, Installers, Code, Other) that becomes a subfolder when organizing by type.
+_Avoid_: Type, group
 
-**Conflito de nome**:
-Quando o destino já contém um arquivo com o mesmo nome; resolvido com sufixo numérico, ex.: `foto (1).jpg`. Nunca há sobrescrita.
+**Name conflict**:
+When the destination already contains a file with the same name; resolved with a numeric suffix, e.g. `photo (1).jpg`. Nothing is ever overwritten.
 
-## Varredura
+## Scanning
 
-**Varredura**:
-Medição do espaço ocupado por cada arquivo e pasta de um Alvo.
-_Avoid_: Scan, análise
+**Scan**:
+Measuring the space used by every file and folder of a Target.
+_Avoid_: Analysis, crawl
 
-**Alvo**:
-O disco ou a pasta que uma Varredura mede. Uma Varredura tem exatamente um Alvo.
+**Target**:
+The drive or folder a Scan measures. A Scan has exactly one Target.
 
-**Varredura rápida**:
-Varredura que lê o índice do sistema de arquivos NTFS de uma vez; exige administrador.
+**Fast scan**:
+A Scan that reads the NTFS file system index in one pass; requires administrator rights.
 
-**Varredura comum**:
-Varredura que percorre as pastas uma a uma; não exige administrador.
+**Standard scan**:
+A Scan that walks folders one by one; requires no administrator rights.
 
-**Arquivo pesado**:
-Arquivo entre os maiores resultados de uma Varredura.
+**Large file**:
+A file among the biggest results of a Scan.
+_Avoid_: Heavy file, big file
 
-**Pasta protegida**:
-Pasta do sistema (ex.: `C:\Windows`, `Program Files`, `ProgramData`, raiz do disco) que aparece na Varredura mas não aceita Organização nem Exclusão.
+**Protected folder**:
+A system folder (e.g. `C:\Windows`, `Program Files`, `ProgramData`, a drive root) that appears in a Scan but accepts neither Organization nor Deletion.
 
-## Operações
+## Operations
 
-**Operação**:
-Ação confirmada pelo usuário que altera arquivos (mover, renomear, enviar para a Lixeira). Toda Operação passa por Prévia e fica no Histórico.
+**Operation**:
+A user-confirmed action that changes files (move, rename, send to the Recycle Bin). Every Operation goes through a Preview and is recorded in the History.
 
-**Prévia**:
-Lista do que uma Operação fará, mostrada antes de executá-la.
+**Preview**:
+The list of what an Operation will do, shown before it runs.
 
-**Histórico**:
-Registro persistente das Operações executadas, que sobrevive ao fechar o app.
+**History**:
+The persistent record of executed Operations; survives closing the app.
 
-**Desfazer**:
-Reverter uma Operação do Histórico, devolvendo os arquivos ao estado anterior, inclusive restaurando da Lixeira.
+**Undo**:
+Reverting an Operation from the History, returning files to their previous state, including restoring them from the Recycle Bin.
 
-**Exclusão**:
-Envio para a Lixeira do Windows de arquivos que o próprio usuário selecionou. O app nunca apaga permanentemente nem sugere o que apagar.
-_Avoid_: Deletar, limpar, remover
+**Deletion**:
+Sending files the user selected themselves to the Windows Recycle Bin. The app never deletes permanently and never suggests what to delete.
+_Avoid_: Permanent delete, cleanup, purge

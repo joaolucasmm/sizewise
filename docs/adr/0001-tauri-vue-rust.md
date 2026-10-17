@@ -1,10 +1,10 @@
-# Tauri 2 com Vue 3 + TypeScript na interface e Rust no núcleo
+# Tauri 2 with a Vue 3 + TypeScript UI and a Rust core
 
-O app precisa varrer discos inteiros rápido e ser leve, já que é um "otimizador". Escolhemos Tauri 2: a varredura, as Operações em arquivos e o acesso às APIs do Windows ficam no núcleo em Rust, e a interface é feita em Vue 3 + TypeScript, aproveitando a experiência do autor com TS. O desempenho percebido depende do núcleo e da virtualização das listas, não do framework de interface.
+The app has to scan entire drives quickly and stay lightweight, since it is a "PC optimizer". We chose Tauri 2: scanning, file Operations and Windows API access live in a Rust core, and the UI is built with Vue 3 + TypeScript, leveraging the author's TS experience. Perceived performance depends on the core and on list virtualization, not on the UI framework.
 
 ## Considered Options
 
-- **C# + WPF/.NET**: desempenho próximo e ótimo acesso ao Windows, mas a interface em XAML seria nova para o autor e o app ficaria maior.
-- **Electron**: familiar (Node), mas com cerca de 150 MB, contradiz a proposta de um app que otimiza o PC.
-- **Python + Qt**: varredura lenta e distribuição ruim.
-- **React no lugar de Vue**: desempenho equivalente; Vue foi escolhido por preferência do autor.
+- **C# + WPF/.NET**: similar performance and great Windows access, but XAML would be new to the author and the app would be larger.
+- **Electron**: familiar (Node), but at ~150 MB it contradicts the premise of an app that optimizes your PC.
+- **Python + Qt**: slow scanning and poor distribution.
+- **React instead of Vue**: equivalent performance; Vue was chosen by author preference.
