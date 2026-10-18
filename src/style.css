@@ -652,7 +652,7 @@ button.link:hover:not(:disabled) {
 }
 
 .top th:nth-child(6) {
-  width: 44px;
+  width: 52px;
 }
 
 .top th.num {
@@ -666,6 +666,12 @@ button.link:hover:not(:disabled) {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.top td:last-child {
+  overflow: visible;
+  text-overflow: clip;
+  padding: 0 0.4rem;
 }
 
 .top-name .item-icon {

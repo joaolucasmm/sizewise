@@ -5,7 +5,7 @@
 
 A lightweight, open-source Windows app that shows **where your disk space is going**: which folders and Large files take up a drive, without ever touching anything on its own.
 
-Windows Explorer doesn't show folder sizes, and most "PC optimizers" are heavy, full of ads, or delete things you don't understand. Sizewise only reads: it scans a drive or folder, shows the result as a tree sorted by size plus the 100 biggest files, and lets you open any item in Explorer to decide yourself.
+Windows Explorer doesn't show folder sizes, and most "PC optimizers" are heavy, full of ads, or delete things you don't understand. Sizewise only reads: it scans a drive or folder, shows the result as a tree sorted by size plus the 100 Large files, and lets you open any item in Explorer to decide yourself.
 
 ![Sizewise results: folder tree sorted by size](docs/screenshots/results-tree.png)
 

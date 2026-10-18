@@ -71,7 +71,8 @@ export const getSummary = (scanId: number) => invoke<Summary>("get_summary", { s
 export const getChildren = (id: number, offset: number, limit: number) =>
   invoke<ChildrenPage>("get_children", { id, offset, limit });
 
-export const getTopFiles = (limit: number) => invoke<TreeNode[]>("get_top_files", { limit });
+/** Every Large file the Scan kept (the Top 100), largest first. */
+export const getTopFiles = () => invoke<TreeNode[]>("get_top_files");
 
 export const getUnreadable = () => invoke<string[]>("get_unreadable");
 

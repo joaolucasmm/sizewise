@@ -14,6 +14,9 @@ use crate::result::{Node, NodeId, NodeKind, ScanResult, ScanState};
 /// Minimum time between two progress events (about 10 per second).
 const PROGRESS_INTERVAL: Duration = Duration::from_millis(100);
 
+/// `last_report_ms` before the first event, so the first listed folder reports at once.
+const NEVER_REPORTED: u64 = u64::MAX;
+
 #[derive(Debug, Clone)]
 pub struct ScanOptions {
     /// How many Large files to keep in the result.
@@ -54,8 +57,9 @@ pub enum ScanError {
 
 /// Runs a Standard scan of `target`.
 ///
-/// `on_progress` is called at most about 10 times per second while the Scan
-/// runs, plus once at the end with the final totals. Setting `cancel` stops
+/// `on_progress` is called once the Target's own entries are listed (before
+/// any subfolder is opened), then at most about 10 times per second while the
+/// Scan runs, plus once at the end with the final totals. Setting `cancel` stops
 /// the Scan cooperatively; the partial result comes back in the
 /// [`ScanState::Cancelled`] state.
 ///
@@ -97,7 +101,7 @@ pub fn scan(
         start,
         files: AtomicU64::new(0),
         bytes: AtomicU64::new(0),
-        last_report_ms: AtomicU64::new(0),
+        last_report_ms: AtomicU64::new(NEVER_REPORTED),
         unreadable: Mutex::new(Vec::new()),
     };
     let name = target.to_string_lossy().into();
@@ -176,6 +180,11 @@ impl Walker<'_> {
     }
 
     fn visit_dir(&self, path: &Path, name: Box<str>, modified: Option<i64>) -> TempNode {
+        // Folders queued before Cancel are not opened at all, so Cancel stays
+        // quick even below a folder with tens of thousands of subfolders.
+        if self.cancelled() {
+            return TempNode::leaf(name, NodeKind::Folder, 0, modified);
+        }
         match fs::read_dir(path) {
             Ok(entries) => self.walk_dir(path, name, modified, entries),
             Err(_) => {
@@ -196,14 +205,14 @@ impl Walker<'_> {
         let mut subdirs = Vec::new();
         let mut files = 0;
         let mut bytes = 0;
-        let mut entry_error = false;
 
         for entry in entries {
             if self.cancelled() {
                 break;
             }
+            // An entry that vanished or can't be stat'ed is skipped; the folder
+            // itself was read, so it isn't reported as unreadable.
             let Some((entry, metadata)) = entry.ok().and_then(with_metadata) else {
-                entry_error = true;
                 continue;
             };
             let name: Box<str> = entry.file_name().to_string_lossy().into();
@@ -233,9 +242,6 @@ impl Walker<'_> {
                     children.push(TempNode::leaf(name, kind, size, modified));
                 }
             }
-        }
-        if entry_error {
-            self.mark_unreadable(path);
         }
 
         self.files.fetch_add(files, Ordering::Relaxed);
@@ -267,7 +273,9 @@ impl Walker<'_> {
     fn maybe_report(&self, current_folder: &Path) {
         let now = self.start.elapsed().as_millis() as u64;
         let last = self.last_report_ms.load(Ordering::Relaxed);
-        if now.saturating_sub(last) < PROGRESS_INTERVAL.as_millis() as u64 {
+        let due = last == NEVER_REPORTED
+            || now.saturating_sub(last) >= PROGRESS_INTERVAL.as_millis() as u64;
+        if !due {
             return;
         }
         // Only the thread that wins the race reports, so events stay rate-limited.

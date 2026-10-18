@@ -28,6 +28,27 @@ jobs:
       - name: Test
         run: cargo test --workspace
 
+      # The Release notes are this tag's section of CHANGELOG.md, so the
+      # changelog stays the single source.
+      - name: Extract release notes
+        id: notes
+        shell: bash
+        run: |
+          notes=$(awk -v tag="## ${GITHUB_REF_NAME}" '{sub(/\r$/, "")} $0 == tag {found=1; next} found && /^## / {exit} found {print}' CHANGELOG.md)
+          if [ -z "$(echo "$notes" | tr -d '[:space:]')" ]; then
+            echo "CHANGELOG.md has no section '## ${GITHUB_REF_NAME}'" >&2
+            exit 1
+          fi
+          {
+            echo "body<<SIZEWISE_NOTES"
+            echo "$notes"
+            echo
+            echo "### Installing"
+            echo
+            echo 'Download `Sizewise_*_x64-setup.exe` below. The installer is not code-signed, so Windows SmartScreen will warn you: click **More info → Run anyway**.'
+            echo "SIZEWISE_NOTES"
+          } >> "$GITHUB_OUTPUT"
+
       # Builds the NSIS installer (unsigned) and attaches it to a GitHub Release.
       - uses: tauri-apps/tauri-action@v0
         env:
@@ -35,9 +56,6 @@ jobs:
         with:
           tagName: ${{ github.ref_name }}
           releaseName: Sizewise ${{ github.ref_name }}
-          releaseBody: |
-            See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md) for what's new.
-
-            Download `Sizewise_*_x64-setup.exe` below. The installer is not code-signed, so Windows SmartScreen will warn you: click **More info → Run anyway**.
+          releaseBody: ${{ steps.notes.outputs.body }}
           releaseDraft: false
           prerelease: false

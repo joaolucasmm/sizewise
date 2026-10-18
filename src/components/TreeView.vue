@@ -3,7 +3,7 @@ import { computed, onMounted, onUnmounted, ref, shallowRef } from "vue";
 import { useI18n } from "vue-i18n";
 import { getChildren, type TreeNode } from "../api";
 import { openMenu, showToast } from "../actions";
-import { formatBytes, formatPercent } from "../format";
+import { formatBytes, formatCount, formatPercent } from "../format";
 import ItemIcon from "./ItemIcon.vue";
 import RowActions from "./RowActions.vue";
 
@@ -161,7 +161,8 @@ onUnmounted(() => observer?.disconnect());
             <span class="num">{{ formatBytes(row.node.size, locale) }}</span>
             <span class="muted small contents">
               <template v-if="row.node.kind === 'folder'">
-                {{ t("tree.files", row.node.files) }} · {{ t("tree.folders", row.node.folders) }}
+                {{ t("tree.files", { n: formatCount(row.node.files, locale) }, row.node.files) }} ·
+                {{ t("tree.folders", { n: formatCount(row.node.folders, locale) }, row.node.folders) }}
               </template>
             </span>
             <RowActions :node="row.node" />
