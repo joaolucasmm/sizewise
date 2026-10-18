@@ -174,8 +174,8 @@ fn zero_byte_files_are_counted() {
 #[test]
 fn names_with_accents_spaces_and_emoji() {
     let names = [
-        "relatório final.pdf",
-        "música/canção 🎵.mp3",
+        "naïve résumé.pdf",
+        "café/crème brûlée 🎵.mp3",
         "日本語 フォルダ/ファイル.txt",
     ];
     let dir = tree(&[(names[0], 10), (names[1], 20), (names[2], 30)]);
@@ -183,8 +183,8 @@ fn names_with_accents_spaces_and_emoji() {
     assert_eq!(result.total_size(), 60);
     assert_eq!(result.total_files(), 3);
 
-    let musica = child_named(&result, result.root(), "música");
-    let song = child_named(&result, musica, "canção 🎵.mp3");
+    let cafe = child_named(&result, result.root(), "café");
+    let song = child_named(&result, cafe, "crème brûlée 🎵.mp3");
     assert_eq!(result.node(song).unwrap().size(), 20);
     assert_eq!(result.path(song).unwrap(), dir.path().join(names[1]));
 }
@@ -324,11 +324,18 @@ fn cancelling_returns_quickly_in_the_cancelled_state() {
 }
 
 #[test]
-fn cancelling_from_progress_stops_the_scan() {
+fn cancelling_mid_scan_stops_before_opening_queued_folders() {
     let dir = tempfile::tempdir().unwrap();
+    for name in ["a.bin", "b.bin", "c.bin"] {
+        write_file(&dir.path().join(name), 10);
+    }
     for i in 0..400 {
         write_file(&dir.path().join(format!("d{}/e{}/f{i}", i % 20, i % 7)), 1);
     }
+
+    // The first progress event comes right after the Target is listed and
+    // before any subfolder is opened: cancelling there must leave all 20
+    // queued subfolders unopened.
     let cancel = AtomicBool::new(false);
     let result = scan(
         dir.path(),
@@ -337,10 +344,13 @@ fn cancelling_from_progress_stops_the_scan() {
         &cancel,
     )
     .unwrap();
-    // The first progress event may only come at the very end on a fast disk;
-    // either way the state reflects whether cancellation happened in time.
-    if result.total_files() < 400 {
-        assert_eq!(result.state(), ScanState::Cancelled);
+
+    assert_eq!(result.state(), ScanState::Cancelled);
+    assert_eq!(result.total_files(), 3);
+    assert_eq!(result.total_size(), 30);
+    assert_eq!(result.total_folders(), 20);
+    for id in all_children(&result, result.root()) {
+        assert_eq!(result.node(id).unwrap().child_count(), 0);
     }
 }
 
@@ -472,6 +482,32 @@ mod windows {
         assert_eq!(result.total_size(), 105);
         assert_eq!(result.total_files(), 2);
         assert_eq!(result.total_folders(), 2);
+    }
+
+    #[test]
+    fn folders_queued_before_cancel_are_never_opened() {
+        let dir = tree(&[
+            ("a.bin", 10),
+            ("open/x.bin", 1),
+            ("zz-locked/secret.bin", 1),
+        ]);
+        let locked = dir.path().join("zz-locked");
+        let _denied = Denied::new(&locked);
+
+        // Cancelling on the first progress event (right after the Target is
+        // listed) must not open any subfolder, so the locked one is never
+        // tried and never reported as unreadable.
+        let cancel = AtomicBool::new(false);
+        let result = scan(
+            dir.path(),
+            &ScanOptions::default(),
+            &|_| cancel.store(true, Ordering::Relaxed),
+            &cancel,
+        )
+        .unwrap();
+
+        assert_eq!(result.state(), ScanState::Cancelled);
+        assert!(result.unreadable().is_empty(), "{:?}", result.unreadable());
     }
 
     #[test]

@@ -8,9 +8,6 @@ use tauri_plugin_opener::OpenerExt;
 use crate::dto::{ChildrenPage, DriveDto, FailedDto, NodeDto, ProgressDto, SummaryDto};
 use crate::state::AppState;
 
-/// How many Large files the results screen shows.
-const TOP_FILES: usize = 100;
-
 /// Windows display language (e.g. `pt-BR`), used for the first launch.
 #[tauri::command]
 pub fn system_locale() -> Option<String> {
@@ -38,10 +35,8 @@ pub fn start_scan(app: AppHandle, state: State<'_, AppState>, target: String) ->
                 let _ = app.emit("scan-progress", ProgressDto::new(scan_id, progress));
             }
         };
-        let options = ScanOptions {
-            top_n: TOP_FILES,
-            ..ScanOptions::default()
-        };
+        // The default keeps the 100 Large files the results screen shows.
+        let options = ScanOptions::default();
         match scanner::scan(&PathBuf::from(&target), &options, &on_progress, &cancel) {
             Ok(result) => {
                 let summary = SummaryDto::new(scan_id, &result);
@@ -92,10 +87,10 @@ pub fn get_children(
 }
 
 #[tauri::command]
-pub fn get_top_files(state: State<'_, AppState>, limit: usize) -> Result<Vec<NodeDto>, String> {
+pub fn get_top_files(state: State<'_, AppState>) -> Result<Vec<NodeDto>, String> {
     let result = state.result()?;
     Ok(result
-        .top_files(limit)
+        .top_files(usize::MAX)
         .iter()
         .filter_map(|&id| NodeDto::new(&result, id))
         .collect())

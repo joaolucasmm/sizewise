@@ -16,7 +16,7 @@ function folderOf(node: TreeNode): string {
 
 onMounted(async () => {
   try {
-    files.value = await getTopFiles(100);
+    files.value = await getTopFiles();
   } catch (error) {
     files.value = [];
     showToast(t("errors.generic", { message: String(error) }), "error");
