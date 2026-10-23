@@ -2,7 +2,7 @@
 //! (`Microsoft-Windows-Diagnostics-Performance/Operational`, event 100).
 //! Windows only lets administrators read this log.
 
-use windows::Win32::Foundation::{ERROR_NO_MORE_ITEMS, ERROR_TIMEOUT};
+use windows::Win32::Foundation::{ERROR_EVT_CHANNEL_NOT_FOUND, ERROR_NO_MORE_ITEMS, ERROR_TIMEOUT};
 use windows::Win32::System::EventLog::{
     EvtClose, EvtNext, EvtQuery, EvtQueryChannelPath, EvtQueryReverseDirection, EvtRender,
     EvtRenderEventXml, EVT_HANDLE,
@@ -26,19 +26,26 @@ pub struct StartupDuration {
     pub post_boot_ms: u64,
 }
 
-/// The most recent startups, newest first, at most `limit`.
+/// The most recent startups, newest first, at most `limit`. Editions of
+/// Windows without this log (e.g. some Server installs) have none to report.
 pub fn startup_durations(limit: usize) -> Result<Vec<StartupDuration>, Unavailable> {
     let channel = Wide::new(CHANNEL);
     let query = Wide::new("*[System[(EventID=100)]]");
     // SAFETY: strings are null-terminated; the handle is closed below.
-    let results = unsafe {
+    let results = match unsafe {
         EvtQuery(
             None,
             channel.as_pcwstr(),
             query.as_pcwstr(),
             EvtQueryChannelPath.0 | EvtQueryReverseDirection.0,
         )
-    }?;
+    } {
+        Ok(results) => results,
+        Err(error) if error.code() == ERROR_EVT_CHANNEL_NOT_FOUND.to_hresult() => {
+            return Ok(Vec::new())
+        }
+        Err(error) => return Err(error.into()),
+    };
     let results = Handle(results);
 
     let mut durations = Vec::new();

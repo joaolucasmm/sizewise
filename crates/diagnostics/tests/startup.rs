@@ -20,11 +20,11 @@ struct RunValue {
 impl RunValue {
     fn add(test: &str, command: &str) -> Self {
         let name = format!("Sizewise test {test} {}", std::process::id());
-        RegKey::predef(HKEY_CURRENT_USER)
-            .open_subkey_with_flags(RUN, KEY_SET_VALUE)
-            .unwrap()
-            .set_value(&name, &command.to_string())
+        // A fresh account (e.g. on a CI runner) may have no Run key yet.
+        let (key, _) = RegKey::predef(HKEY_CURRENT_USER)
+            .create_subkey_with_flags(RUN, KEY_SET_VALUE)
             .unwrap();
+        key.set_value(&name, &command.to_string()).unwrap();
         Self { name }
     }
 
