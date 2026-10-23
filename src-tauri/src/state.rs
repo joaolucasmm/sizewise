@@ -56,3 +56,28 @@ impl AppState {
             .ok_or_else(|| "no scan result available".to_string())
     }
 }
+
+/// At most one process sampler runs, only while a screen that shows live
+/// usage is open.
+#[derive(Default)]
+pub struct SamplerState(Mutex<Option<Arc<AtomicBool>>>);
+
+impl SamplerState {
+    /// The stop flag for a new sampler, or `None` if one is already running.
+    pub fn start(&self) -> Option<Arc<AtomicBool>> {
+        let mut running = self.0.lock().unwrap_or_else(|e| e.into_inner());
+        if running.is_some() {
+            return None;
+        }
+        let stop = Arc::new(AtomicBool::new(false));
+        *running = Some(stop.clone());
+        Some(stop)
+    }
+
+    pub fn stop(&self) {
+        let mut running = self.0.lock().unwrap_or_else(|e| e.into_inner());
+        if let Some(stop) = running.take() {
+            stop.store(true, Ordering::Relaxed);
+        }
+    }
+}

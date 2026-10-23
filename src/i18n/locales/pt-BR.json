@@ -1,6 +1,6 @@
 {
   "app": {
-    "tagline": "Veja o que está ocupando o seu disco"
+    "tagline": "Veja o que ocupa o seu disco e deixa o PC lento"
   },
   "language": {
     "label": "Idioma",
@@ -75,6 +75,143 @@
     "copyPath": "Copiar caminho",
     "copied": "Caminho copiado",
     "revealFailed": "Não foi possível abrir o Explorer: {message}",
-    "copyFailed": "Não foi possível copiar o caminho: {message}"
+    "copyFailed": "Não foi possível copiar o caminho: {message}",
+    "openLocation": "Abrir local do arquivo"
+  },
+  "nav": {
+    "label": "Seções",
+    "disk": "Espaço em disco",
+    "overview": "Visão geral",
+    "startup": "Inicialização",
+    "processes": "Processos",
+    "programs": "Programas",
+    "disks": "Discos"
+  },
+  "common": {
+    "cancel": "Cancelar",
+    "loading": "Carregando…",
+    "actions": "Ações",
+    "unknown": "Desconhecido",
+    "needsAdmin": "Requer administrador: o Windows só fornece isso a administradores.",
+    "unavailable": "Indisponível: {message}",
+    "cantUndo": "O Sizewise não consegue desfazer isso."
+  },
+  "overview": {
+    "title": "Visão geral",
+    "intro": "Fatos medidos sobre este PC, agora. Você decide o que fazer com eles.",
+    "details": "Detalhes",
+    "startup": "Inicialização",
+    "enabledItems": "item de inicialização ativado | itens de inicialização ativados",
+    "lastStartup": "A última inicialização levou {time} ({date}).",
+    "cpu": "CPU agora",
+    "ram": "Memória agora",
+    "ramUsed": "{used} de {total} em uso",
+    "diskHealth": "Saúde dos discos",
+    "disksFine": "Nenhum disco relata problema de saúde. | O disco não relata problema de saúde. | Nenhum disco relata problema de saúde ({count} discos).",
+    "space": "Espaço livre"
+  },
+  "startup": {
+    "title": "Itens de inicialização",
+    "intro": "Tudo o que o Windows abre quando você entra, na sua conta e para todo o PC.",
+    "viewOnly": "Por enquanto esta lista é só para consulta: ativar ou desativar itens de inicialização chega numa próxima versão. A aba Aplicativos de inicialização do Gerenciador de Tarefas já faz isso.",
+    "durations": "Inicializações recentes",
+    "noDurations": "O Windows ainda não registrou a duração de uma inicialização.",
+    "untilDesktop": "Área de trabalho pronta após {time}",
+    "items": "Itens ({enabled} de {total} ativados)",
+    "noImpact": "O Windows não informa quanto cada item atrasa a inicialização, então o Sizewise não mostra um impacto em vez de inventar um.",
+    "empty": "Nenhum item de inicialização encontrado.",
+    "name": "Nome",
+    "publisher": "Editor",
+    "sourceColumn": "Origem",
+    "state": "Estado",
+    "command": "Comando",
+    "broken": "Quebrado",
+    "brokenHint": "O arquivo do programa não existe mais: é uma sobra.",
+    "enabled": "Ativado",
+    "disabled": "Desativado",
+    "source": {
+      "runUser": "Registro (sua conta)",
+      "runMachine": "Registro (todos os usuários)",
+      "folderUser": "Pasta Inicializar (sua conta)",
+      "folderMachine": "Pasta Inicializar (todos os usuários)",
+      "storeApp": "App da Store",
+      "task": "Tarefa agendada"
+    }
+  },
+  "processes": {
+    "title": "Processos",
+    "intro": "O que está rodando agora e quanto usa. Atualiza a cada 1,5 segundo enquanto esta tela está aberta.",
+    "cpu": "CPU",
+    "ram": "Memória",
+    "ramOf": "de {total} ({percent})",
+    "read": "Leitura",
+    "write": "Gravação",
+    "ioNote": "Leitura e Gravação contam toda a E/S de arquivos, discos e dispositivos que o Windows informa para cada processo.",
+    "name": "Nome",
+    "expand": "Mostrar os processos de {name}",
+    "pid": "PID {pid}",
+    "endTask": "Finalizar tarefa",
+    "protected": "Protegido",
+    "criticalHint": "O Windows precisa deste processo. Finalizá-lo pode travar o PC, então o Sizewise não permite.",
+    "ownHint": "Este é o próprio Sizewise.",
+    "confirmTitle": "Finalizar {name}?",
+    "confirmBody": "{name} (PID {pid}) será fechado na hora. Qualquer trabalho não salvo nele será perdido.",
+    "ended": "{name} foi finalizado.",
+    "accessDenied": "O Windows não permitiu finalizar {name}. Talvez sejam necessários direitos de administrador.",
+    "alreadyExited": "{name} já tinha fechado.",
+    "endFailed": "Não foi possível finalizar {name}: {message}"
+  },
+  "programs": {
+    "title": "Programas instalados",
+    "intro": "Programas instalados para todos os usuários e para a sua conta, dos maiores para os menores. Apps da Store não aparecem.",
+    "search": "Buscar por nome ou editor",
+    "count": "{count} programas · {size} informados",
+    "empty": "Nenhum programa encontrado.",
+    "name": "Nome",
+    "publisher": "Editor",
+    "version": "Versão",
+    "installed": "Instalado em",
+    "size": "Tamanho",
+    "measure": "Medir",
+    "measuring": "Medindo…",
+    "measuredHint": "Medido a partir da pasta de instalação; o programa não informa tamanho.",
+    "measureFailed": "Não foi possível medir {name}: {message}",
+    "openFolder": "Abrir pasta de instalação",
+    "openFolderFailed": "Não foi possível abrir a pasta: {message}",
+    "uninstall": "Desinstalar",
+    "uninstalling": "Desinstalando…",
+    "confirmTitle": "Desinstalar {name}?",
+    "confirmBody": "O desinstalador do próprio programa será aberto, e o Windows pode pedir permissão de administrador. Siga os passos dele para remover {name}.",
+    "confirmUndo": "O Sizewise não consegue desfazer uma desinstalação: nada vai para a Lixeira.",
+    "started": "O desinstalador de {name} foi aberto.",
+    "removed": "{name} foi desinstalado.",
+    "uninstallerClosed": "O desinstalador de {name} fechou. A lista foi atualizada.",
+    "cancelled": "A desinstalação de {name} foi cancelada.",
+    "uninstallerMissing": "O desinstalador de {name} não existe mais. Tente removê-lo pelas Configurações do Windows.",
+    "notFound": "{name} não está mais instalado.",
+    "uninstallFailed": "Não foi possível abrir o desinstalador de {name}: {message}"
+  },
+  "disks": {
+    "title": "Discos",
+    "intro": "A saúde que cada disco físico informa e quão cheia está cada unidade.",
+    "problemTitle": "{model} relata um problema de saúde.",
+    "problemBody": "O disco pode falhar em breve. Faça agora um backup dos arquivos importantes.",
+    "physical": "Discos físicos",
+    "unnamed": "Disco",
+    "volumes": "Unidades",
+    "media": {
+      "ssd": "SSD",
+      "hdd": "HD",
+      "scm": "Memória de classe de armazenamento",
+      "unspecified": "Tipo desconhecido"
+    },
+    "health": {
+      "healthy": "Saudável",
+      "warning": "Alerta",
+      "unhealthy": "Com defeito",
+      "unknown": "Saúde desconhecida"
+    },
+    "lowSpace": "Menos de 10% livre.",
+    "scanDrive": "Escanear esta unidade"
   }
 }

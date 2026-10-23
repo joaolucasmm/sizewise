@@ -1,6 +1,6 @@
 {
   "app": {
-    "tagline": "See what is using your disk space"
+    "tagline": "See what is using your disk and slowing your PC"
   },
   "language": {
     "label": "Language",
@@ -75,6 +75,143 @@
     "copyPath": "Copy path",
     "copied": "Path copied",
     "revealFailed": "Couldn't open Explorer: {message}",
-    "copyFailed": "Couldn't copy the path: {message}"
+    "copyFailed": "Couldn't copy the path: {message}",
+    "openLocation": "Open file location"
+  },
+  "nav": {
+    "label": "Sections",
+    "disk": "Disk space",
+    "overview": "Overview",
+    "startup": "Startup",
+    "processes": "Processes",
+    "programs": "Programs",
+    "disks": "Disks"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "loading": "Loading…",
+    "actions": "Actions",
+    "unknown": "Unknown",
+    "needsAdmin": "Needs administrator: Windows only shares this with administrators.",
+    "unavailable": "Unavailable: {message}",
+    "cantUndo": "This can't be undone by Sizewise."
+  },
+  "overview": {
+    "title": "Overview",
+    "intro": "Measured facts about this PC, right now. You decide what to do about them.",
+    "details": "Details",
+    "startup": "Startup",
+    "enabledItems": "Startup item enabled | Startup items enabled",
+    "lastStartup": "Last startup took {time} ({date}).",
+    "cpu": "CPU now",
+    "ram": "Memory now",
+    "ramUsed": "{used} of {total} in use",
+    "diskHealth": "Disk health",
+    "disksFine": "No disk reports a health problem. | The disk reports no health problem. | No disk reports a health problem ({count} disks).",
+    "space": "Free space"
+  },
+  "startup": {
+    "title": "Startup items",
+    "intro": "Everything Windows launches when you sign in, for your account and for the whole PC.",
+    "viewOnly": "This list is view-only for now: turning Startup items on or off is coming in a later version. Task Manager's Startup tab can do it today.",
+    "durations": "Recent startups",
+    "noDurations": "Windows hasn't recorded a startup duration yet.",
+    "untilDesktop": "Desktop ready after {time}",
+    "items": "Items ({enabled} of {total} enabled)",
+    "noImpact": "Windows doesn't share how much each item slows down startup, so Sizewise shows no impact rather than guess one.",
+    "empty": "No Startup items found.",
+    "name": "Name",
+    "publisher": "Publisher",
+    "sourceColumn": "Source",
+    "state": "State",
+    "command": "Command",
+    "broken": "Broken",
+    "brokenHint": "Its program file no longer exists: this is a leftover.",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "source": {
+      "runUser": "Registry (your account)",
+      "runMachine": "Registry (all users)",
+      "folderUser": "Startup folder (your account)",
+      "folderMachine": "Startup folder (all users)",
+      "storeApp": "Store app",
+      "task": "Scheduled task"
+    }
+  },
+  "processes": {
+    "title": "Processes",
+    "intro": "What is running now and how much it uses. Refreshes every 1.5 seconds while this screen is open.",
+    "cpu": "CPU",
+    "ram": "Memory",
+    "ramOf": "of {total} ({percent})",
+    "read": "Read",
+    "write": "Write",
+    "ioNote": "Read and Write count all file, disk and device I/O Windows reports for each process.",
+    "name": "Name",
+    "expand": "Show the processes of {name}",
+    "pid": "PID {pid}",
+    "endTask": "End task",
+    "protected": "Protected",
+    "criticalHint": "Windows needs this process. Ending it could crash the PC, so Sizewise doesn't allow it.",
+    "ownHint": "This is Sizewise itself.",
+    "confirmTitle": "End {name}?",
+    "confirmBody": "{name} (PID {pid}) will be closed immediately. Any unsaved work in it will be lost.",
+    "ended": "{name} was ended.",
+    "accessDenied": "Windows didn't allow ending {name}. It may need administrator rights.",
+    "alreadyExited": "{name} had already closed.",
+    "endFailed": "Couldn't end {name}: {message}"
+  },
+  "programs": {
+    "title": "Installed programs",
+    "intro": "Programs installed for all users and for your account, largest first. Store apps aren't listed.",
+    "search": "Search by name or publisher",
+    "count": "{count} programs · {size} reported",
+    "empty": "No programs found.",
+    "name": "Name",
+    "publisher": "Publisher",
+    "version": "Version",
+    "installed": "Installed",
+    "size": "Size",
+    "measure": "Measure",
+    "measuring": "Measuring…",
+    "measuredHint": "Measured from the install folder; the program reports no size.",
+    "measureFailed": "Couldn't measure {name}: {message}",
+    "openFolder": "Open install folder",
+    "openFolderFailed": "Couldn't open the folder: {message}",
+    "uninstall": "Uninstall",
+    "uninstalling": "Uninstalling…",
+    "confirmTitle": "Uninstall {name}?",
+    "confirmBody": "The program's own uninstaller will open, and Windows may ask for administrator permission. Follow its steps to remove {name}.",
+    "confirmUndo": "Uninstalling can't be undone by Sizewise: nothing goes to the Recycle Bin.",
+    "started": "The uninstaller of {name} was opened.",
+    "removed": "{name} was uninstalled.",
+    "uninstallerClosed": "The uninstaller of {name} closed. The list was refreshed.",
+    "cancelled": "Uninstalling {name} was cancelled.",
+    "uninstallerMissing": "The uninstaller of {name} no longer exists. Try removing it from Windows Settings.",
+    "notFound": "{name} is no longer installed.",
+    "uninstallFailed": "Couldn't start the uninstaller of {name}: {message}"
+  },
+  "disks": {
+    "title": "Disks",
+    "intro": "The health each physical disk reports, and how full each drive is.",
+    "problemTitle": "{model} reports a health problem.",
+    "problemBody": "The disk may fail soon. Back up the files you care about now.",
+    "physical": "Physical disks",
+    "unnamed": "Disk",
+    "volumes": "Drives",
+    "media": {
+      "ssd": "SSD",
+      "hdd": "HDD",
+      "scm": "Storage-class memory",
+      "unspecified": "Unknown type"
+    },
+    "health": {
+      "healthy": "Healthy",
+      "warning": "Warning",
+      "unhealthy": "Unhealthy",
+      "unknown": "Health unknown"
+    },
+    "lowSpace": "Less than 10% free.",
+    "scanDrive": "Scan this drive"
   }
 }

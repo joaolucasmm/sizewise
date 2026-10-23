@@ -2,12 +2,19 @@
 import { onMounted, onUnmounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { cancelScan, onScanEvents, startScan, type Progress, type ScanFailure, type Summary } from "./api";
+import ConfirmDialog from "./components/ConfirmDialog.vue";
 import ContextMenu from "./components/ContextMenu.vue";
+import DisksScreen from "./components/DisksScreen.vue";
 import LanguageSwitcher from "./components/LanguageSwitcher.vue";
+import OverviewScreen from "./components/OverviewScreen.vue";
+import ProcessesScreen from "./components/ProcessesScreen.vue";
+import ProgramsScreen from "./components/ProgramsScreen.vue";
 import ResultsScreen from "./components/ResultsScreen.vue";
 import ScanScreen from "./components/ScanScreen.vue";
 import StartScreen from "./components/StartScreen.vue";
+import StartupScreen from "./components/StartupScreen.vue";
 import { toast } from "./actions";
+import { SECTIONS, type Section } from "./sections";
 
 type Screen =
   | { name: "start"; error: string | null }
@@ -15,6 +22,7 @@ type Screen =
   | { name: "results"; summary: Summary };
 
 const { t } = useI18n();
+const section = ref<Section>("disk");
 const screen = ref<Screen>({ name: "start", error: null });
 
 // Scan ids grow by one per Scan. While `start_scan` is in flight its id is
@@ -69,6 +77,7 @@ onMounted(async () => {
 onUnmounted(() => unlisten?.());
 
 async function begin(target: string) {
+  section.value = "disk";
   screen.value = { name: "scanning", target, progress: null, startedAt: Date.now(), cancelling: false };
   starting = true;
   try {
@@ -106,20 +115,43 @@ function newScan() {
       <LanguageSwitcher />
     </header>
 
-    <main class="content">
-      <StartScreen v-if="screen.name === 'start'" :error="screen.error" @scan="begin" @dismiss="screen.error = null" />
-      <ScanScreen
-        v-else-if="screen.name === 'scanning'"
-        :target="screen.target"
-        :progress="screen.progress"
-        :started-at="screen.startedAt"
-        :cancelling="screen.cancelling"
-        @cancel="cancel"
-      />
-      <ResultsScreen v-else :key="screen.summary.scanId" :summary="screen.summary" @new-scan="newScan" />
-    </main>
+    <div class="body">
+      <nav class="sidenav" :aria-label="t('nav.label')">
+        <button
+          v-for="item in SECTIONS"
+          :key="item"
+          :class="{ active: section === item }"
+          :aria-current="section === item ? 'page' : undefined"
+          @click="section = item"
+        >
+          {{ t(`nav.${item}`) }}
+        </button>
+      </nav>
+
+      <main class="content">
+        <!-- The disk space section stays mounted so a Scan and its results survive switching sections. -->
+        <div v-show="section === 'disk'" class="section-disk">
+          <StartScreen v-if="screen.name === 'start'" :error="screen.error" @scan="begin" @dismiss="screen.error = null" />
+          <ScanScreen
+            v-else-if="screen.name === 'scanning'"
+            :target="screen.target"
+            :progress="screen.progress"
+            :started-at="screen.startedAt"
+            :cancelling="screen.cancelling"
+            @cancel="cancel"
+          />
+          <ResultsScreen v-else :key="screen.summary.scanId" :summary="screen.summary" @new-scan="newScan" />
+        </div>
+        <OverviewScreen v-if="section === 'overview'" @open="section = $event" @scan="begin" />
+        <StartupScreen v-else-if="section === 'startup'" />
+        <ProcessesScreen v-else-if="section === 'processes'" />
+        <ProgramsScreen v-else-if="section === 'programs'" />
+        <DisksScreen v-else-if="section === 'disks'" @scan="begin" />
+      </main>
+    </div>
 
     <ContextMenu />
+    <ConfirmDialog />
     <div v-if="toast.message" class="toast" :class="toast.kind" role="status">{{ toast.message }}</div>
   </div>
 </template>
