@@ -16,7 +16,8 @@ Windows Explorer doesn't show folder sizes, and most "PC optimizers" are heavy, 
 - **Folder tree sorted by size** — files and subfolders mixed, each with a readable size, % of its parent, a proportional bar and file/folder counts. Children load on demand and the list is virtualized, so even a full `C:` result stays smooth.
 - **Top 100 Large files** across the whole Target, with folder, size and modification date.
 - **Honest results.** Folders that can't be read are listed instead of silently ignored; cancelled Scans are marked as incomplete; junctions and symbolic links are never followed, so nothing is counted twice.
-- **Open in Explorer** (with the item selected) and **Copy path** on every item. There is no action that changes or deletes files.
+- **Open in Explorer** (with the item selected) and **Copy path** on every item. The Scan never changes or deletes files.
+- **Diagnoses of what slows the PC**, with real measurements and no made-up score: Startup items (registry, Startup folders, Store apps, logon tasks) with their state, a live process monitor with a guarded "End task", installed programs by size with a shortcut to their own uninstaller, and disk health with a warning for drives under 10% free. Nothing runs when the app is closed.
 - **English and Brazilian Portuguese**, following your Windows language, with a switcher that is remembered.
 
 ![Top 100 Large files](docs/screenshots/top-100.png)
@@ -41,10 +42,11 @@ If you'd rather not trust a binary, every release is built by [GitHub Actions](.
 | UI | Vue 3 + TypeScript + vue-i18n (Vite) | Displays data and sends commands; no business logic. |
 | App | Tauri 2 (Rust) | Thin layer translating UI commands and events to the core. |
 | Core | `scanner` crate (Rust, rayon) | Parallel traversal, result tree, queries. No Tauri dependency, fully tested. |
+| Core | `diagnostics` crate (Rust, Win32/WMI) | Startup items, process sampling, installed programs, disks. No Tauri dependency, tested against the real Windows. |
 
 ```
-Vue UI ──commands──▶ Tauri app crate ──▶ scanner crate
-       ◀──events───  (src-tauri)         (crates/scanner)
+Vue UI ──commands──▶ Tauri app crate ──▶ scanner crate      (crates/scanner)
+       ◀──events───  (src-tauri)     ──▶ diagnostics crate  (crates/diagnostics)
 ```
 
 - The whole result tree **stays on the Rust side**, flattened into one array where each folder's children are contiguous and pre-sorted. The UI only asks for one page of a folder's children when you expand it, plus the Top 100, so memory and IPC traffic stay low even with millions of items.

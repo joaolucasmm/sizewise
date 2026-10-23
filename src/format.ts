@@ -53,3 +53,25 @@ export function formatDuration(ms: number, locale: string): string {
   const s = String(total % 60).padStart(2, "0");
   return h > 0 ? `${h}:${String(m).padStart(2, "0")}:${s}` : `${m}:${s}`;
 }
+
+/** `12.3 MB/s`; `—` when not measured yet. */
+export function formatRate(bytesPerSec: number | null, locale: string): string {
+  return bytesPerSec === null ? "—" : `${formatBytes(bytesPerSec, locale)}/s`;
+}
+
+/** `12.3%` of the whole CPU; `—` when not measured yet. */
+export function formatCpu(percent: number | null, locale: string): string {
+  if (percent === null) return "—";
+  return new Intl.NumberFormat(locale, {
+    style: "percent",
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  }).format(percent / 100);
+}
+
+/** A calendar date such as `2026-01-15`, without a time. */
+export function formatDay(isoDate: string | null, locale: string): string {
+  if (isoDate === null) return "—";
+  const [year, month, day] = isoDate.split("-").map(Number);
+  return new Intl.DateTimeFormat(locale, { dateStyle: "medium" }).format(new Date(year, month - 1, day));
+}
